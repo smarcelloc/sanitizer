@@ -5,8 +5,11 @@ declare(strict_types=1);
 $rules = [
     '@PSR12:risky' => true,
     '@Symfony' => true,
-    'declare_strict_types' => true, // risky
     'psr_autoloading' => true, // risky
+    'declare_strict_types' => true, // risky
+    'php_unit_test_annotation' => true, // risky
+    'php_unit_strict' => true, // risky
+    'strict_comparison' => true, // risky
     'concat_space' => ['spacing' => 'one'],
     'declare_parentheses' => true,
     'yoda_style' => false,
