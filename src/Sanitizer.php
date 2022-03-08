@@ -11,23 +11,23 @@ use Illuminate\Validation\ValidationRuleParser;
 class Sanitizer
 {
     /**
-     *  Data to sanitize.
+     * Data to sanitize.
      *
-     *  @var array
+     * @var array
      */
     protected $data;
 
     /**
-     *  Filters to apply.
+     * Filters to apply.
      *
-     *  @var array
+     * @var array
      */
     protected $rules;
 
     /**
-     *  Available filters as $name => $classPath.
+     * Available filters as $name => $classPath.
      *
-     *  @var array
+     * @var array
      */
     protected $filters = [
         'capitalize' => \Sanitizer\Filters\Capitalize::class,
@@ -43,12 +43,10 @@ class Sanitizer
     ];
 
     /**
-     *  Create a new sanitizer instance.
+     * Create a new sanitizer instance.
      *
-     *  @param  array   $rules      Rules to be applied to each data attribute
-     *  @param  array   $filters    Available filters for this sanitizer
-     *
-     *  @return Sanitizer
+     * @param array $rules Rules to be applied to each data attribute
+     * @param array $customFilters Available filters for this sanitizer
      */
     public function __construct(array $data, array $rules, array $customFilters = [])
     {
@@ -58,9 +56,9 @@ class Sanitizer
     }
 
     /**
-     *  Parse a rules array.
+     * Parse a rules array.
      *
-     *  @return array
+     * @return array
      */
     protected function parseRules(array $rules)
     {
@@ -82,11 +80,11 @@ class Sanitizer
     }
 
     /**
-     *  Parse a rule.
+     * Parse a rule.
      *
-     *  @param  string|\Closure $rule
+     * @param string|\Closure|ClosureValidationRule $rule
      *
-     *  @return array|\Closure
+     * @return array|\Closure|ClosureValidationRule
      */
     protected function parseRule($rule)
     {
@@ -102,11 +100,11 @@ class Sanitizer
     }
 
     /**
-     *  Parse a rule string formatted as filterName:option1, option2 into an array formatted as [name => filterName, options => [option1, option2]].
+     * Parse a rule string formatted as filterName:option1, option2 into an array formatted as [name => filterName, options => [option1, option2]].
      *
-     *  @param  string $rule    Formatted as 'filterName:option1, option2' or just 'filterName'
+     * @param string $rule Formatted as 'filterName:option1, option2' or just 'filterName'
      *
-     *  @return array           Formatted as [name => filterName, options => [option1, option2]]. Empty array if no filter name was found.
+     * @return array Formatted as [name => filterName, options => [option1, option2]]. Empty array if no filter name was found.
      */
     protected function parseRuleString($rule)
     {
@@ -126,12 +124,12 @@ class Sanitizer
     }
 
     /**
-     *  Apply the given filter by its name.
+     * Apply the given filter by its name.
      *
-     *  @param  string|\Closure $rule
+     * @param array|\Closure $rule
      * @param mixed $value
      *
-     *  @return Filter
+     * @return mixed
      */
     protected function applyFilter($rule, $value)
     {
@@ -153,13 +151,14 @@ class Sanitizer
             return call_user_func_array($filter, [$value, $options]);
         }
 
+        // @phpstan-ignore-next-line
         return (new $filter())->apply($value, $options);
     }
 
     /**
-     *  Sanitize the given data.
+     * Sanitize the given data.
      *
-     *  @return array
+     * @return array
      */
     public function sanitize()
     {
