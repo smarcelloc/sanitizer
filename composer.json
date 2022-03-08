@@ -1,0 +1,82 @@
+{
+    "name": "smarcelloc/sanitizer",
+    "type": "library",
+    "description": "Data sanitizer and form request input sanitization for Laravel and Normal PHP",
+    "keywords": [
+        "laravel",
+        "sanitation",
+        "request",
+        "form",
+        "filter",
+        "filter sanitation",
+        "input sanitation",
+        "input sanitizer",
+        "input",
+        "transform input",
+        "transform value",
+        "data transform",
+        "input filter"
+    ],
+    "homepage": "https://github.com/smarcelloc/sanitizer",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/smarcelloc/sanitizer",
+        "issues": "https://github.com/smarcelloc/sanitizer/issues"
+    },
+    "authors": [
+        {
+            "name": "Marcello Silvério",
+            "homepage": "https://github.com/smarcelloc"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "vendor-dir": "vendor",
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Sanitizer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sanitizer\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "lint": "./vendor/bin/php-cs-fixer fix",
+        "lint:check": "./vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "analyse": "./vendor/bin/phpstan"
+    },
+    "scripts-descriptions": {
+        "test": "Run test automation.",
+        "lint": "Tool fixes your code to follow standards.",
+        "lint:check": "Tool check your code is standardized.",
+        "analyse": "Finding bugs in your code."
+    },
+    "require": {
+        "php": "^7.1.3|^8.0",
+        "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0",
+        "illuminate/validation": "^5.0|^6.0|^7.0|^8.0|^9.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "^7.5|^8.5"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sanitizer\\Laravel\\SanitizerServiceProvider"
+            ],
+            "aliases": {
+                "Sanitizer": "Sanitizer\\Laravel\\Facade"
+            }
+        }
+    }
+}
