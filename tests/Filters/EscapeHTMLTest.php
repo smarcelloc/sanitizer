@@ -3,22 +3,11 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Sanitizer\Sanitizer;
+use Sanitizer\Test\SanitizerTrait;
 
 class EscapeHTMLTest extends TestCase
 {
-    /**
-     * @param $data
-     * @param $rules
-     *
-     * @return mixed
-     */
-    public function sanitize($data, $rules)
-    {
-        $sanitizer = new Sanitizer($data, $rules);
-
-        return $sanitizer->sanitize();
-    }
+    use SanitizerTrait;
 
     public function testItEscapesStrings()
     {
