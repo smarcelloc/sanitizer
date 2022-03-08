@@ -29,6 +29,7 @@ $rules = [
     'phpdoc_add_missing_param_annotation' => true,
     'phpdoc_var_annotation_correct_order' => true,
     'phpdoc_order' => true,
+    'phpdoc_align' => ['align' => 'left'],
     'self_static_accessor' => true,
     'control_structure_continuation_position' => true,
     'global_namespace_import' => [
