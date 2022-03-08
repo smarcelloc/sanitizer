@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Laravel;
 
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +17,7 @@ class SanitizerServiceProvider extends ServiceProvider
     {
         // Register the sanitizer factory:
         $this->app->singleton('sanitizer', function ($app) {
-            return new Factory;
+            return new Factory();
         });
 
         // Register make request command

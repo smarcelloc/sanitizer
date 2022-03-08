@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Laravel;
 
 use Illuminate\Foundation\Http\FormRequest as LaravelFormRequest;
@@ -18,7 +20,7 @@ class FormRequest extends LaravelFormRequest
     }
 
     /**
-     *  Sanitize this request's input
+     *  Sanitize this request's input.
      *
      *  @return void
      */

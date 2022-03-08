@@ -20,139 +20,111 @@ class CastTest extends TestCase
         return $sanitizer->sanitize();
     }
 
-    /**
-     *  @test
-     */
-    public function itThrowsExceptionWhenNoCastTypeIsSet()
+    public function testItThrowsExceptionWhenNoCastTypeIsSet()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sanitize(['name' => 'Name'], ['name' => 'cast']);
     }
 
-    /**
-     *  @test
-     */
-    public function itThrowsExceptionWhenNonExistingCastTypeIsSet()
+    public function testItThrowsExceptionWhenNonExistingCastTypeIsSet()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->sanitize(['name' => 'Name'], ['name' => 'cast:bullshit']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsToInteger()
+    public function testItCastsToInteger()
     {
         $results = $this->sanitize(['var' => '15.6'], ['var' => 'cast:integer']);
         $this->assertIsInt($results['var']);
-        $this->assertEquals(15, $results['var']);
+        $this->assertSame(15, $results['var']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsToFloat()
+    public function testItCastsToFloat()
     {
         $results = $this->sanitize(['var' => '15.6'], ['var' => 'cast:double']);
         $this->assertIsFloat($results['var']);
-        $this->assertEquals(15.6, $results['var']);
+        $this->assertSame(15.6, $results['var']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsToString()
+    public function testItCastsToString()
     {
         $results = $this->sanitize(['var' => 15], ['var' => 'cast:string']);
         $this->assertIsString($results['var']);
-        $this->assertEquals('15', $results['var']);
+        $this->assertSame('15', $results['var']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsToBoolean()
+    public function testItCastsToBoolean()
     {
         $results = $this->sanitize(['var' => 15], ['var' => 'cast:boolean']);
         $this->assertIsBool($results['var']);
-        $this->assertEquals(true, $results['var']);
+        $this->assertSame(true, $results['var']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsArrayToObject()
+    public function testItCastsArrayToObject()
     {
         $data = [
             'name' => 'Name',
             'cost' => 15.6,
         ];
+
         $encodedData = $data;
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:object']);
         $this->assertInstanceOf('stdClass', $results['var']);
-        $this->assertEquals('Name', $results['var']->name);
-        $this->assertEquals(15.6, $results['var']->cost);
+        $this->assertSame('Name', $results['var']->name);
+        $this->assertSame(15.6, $results['var']->cost);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsJsonToObject()
+    public function testItCastsJsonToObject()
     {
         $data = [
             'name' => 'Name',
             'cost' => 15.6,
         ];
+
         $encodedData = json_encode($data);
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:object']);
         $this->assertInstanceOf('stdClass', $results['var']);
-        $this->assertEquals('Name', $results['var']->name);
-        $this->assertEquals(15.6, $results['var']->cost);
+        $this->assertSame('Name', $results['var']->name);
+        $this->assertSame(15.6, $results['var']->cost);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsJsonToArray()
+    public function testItCastsJsonToArray()
     {
         $data = [
             'name' => 'Name',
             'cost' => 15.6,
         ];
+
         $encodedData = json_encode($data);
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:array']);
         $this->assertIsArray($results['var']);
-        $this->assertEquals('Name', $results['var']['name']);
-        $this->assertEquals(15.6, $results['var']['cost']);
+        $this->assertSame('Name', $results['var']['name']);
+        $this->assertSame(15.6, $results['var']['cost']);
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsArrayToCollection()
+    public function testItCastsArrayToCollection()
     {
         $data = [
             'name' => 'Name',
             'cost' => 15.6,
         ];
+
         $encodedData = $data;
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:collection']);
         $this->assertInstanceOf('\Illuminate\Support\Collection', $results['var']);
-        $this->assertEquals('Name', $results['var']->first());
+        $this->assertSame('Name', $results['var']->first());
     }
 
-    /**
-     *  @test
-     */
-    public function itCastsJsonToCollection()
+    public function testItCastsJsonToCollection()
     {
         $data = [
             'name' => 'Name',
             'cost' => 15.6,
         ];
+
         $encodedData = json_encode($data);
         $results = $this->sanitize(['var' => $encodedData], ['var' => 'cast:collection']);
         $this->assertInstanceOf('\Illuminate\Support\Collection', $results['var']);
-        $this->assertEquals('Name', $results['var']->first());
+        $this->assertSame('Name', $results['var']->first());
     }
 }

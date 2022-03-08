@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use Sanitizer\Sanitizer;
 
@@ -8,41 +10,41 @@ class FilterIfTest extends TestCase
     /**
      * @param $data
      * @param $rules
+     *
      * @return mixed
      */
     public function sanitize($data, $rules)
     {
         $sanitizer = new Sanitizer($data, $rules);
+
         return $sanitizer->sanitize();
     }
 
-    /**
-     *  @test
-     */
-    public function it_apply_filter_if_match()
+    public function testItApplyFilterIfMatch()
     {
         $data = [
             'name' => 'HellO EverYboDy',
         ];
+
         $rules = [
             'name' => 'uppercase|filter_if:name,HellO EverYboDy',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('HELLO EVERYBODY', $data['name']);
+        $this->assertSame('HELLO EVERYBODY', $data['name']);
     }
 
-    /**
-     *  @test
-     */
-    public function it_does_not_apply_filter_if_no_match()
+    public function testItDoesNotApplyFilterIfNoMatch()
     {
         $data = [
             'name' => 'HellO EverYboDy',
         ];
+
         $rules = [
             'name' => 'uppercase|filter_if:name,no match',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('HellO EverYboDy', $data['name']);
+        $this->assertSame('HellO EverYboDy', $data['name']);
     }
 }

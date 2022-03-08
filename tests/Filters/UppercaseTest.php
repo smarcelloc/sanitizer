@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use Sanitizer\Sanitizer;
 
@@ -8,41 +10,41 @@ class UppercaseTest extends TestCase
     /**
      * @param $data
      * @param $rules
+     *
      * @return mixed
      */
     public function sanitize($data, $rules)
     {
         $sanitizer = new Sanitizer($data, $rules);
+
         return $sanitizer->sanitize();
     }
 
-    /**
-     *  @test
-     */
-    public function it_uppercases_strings()
+    public function testItUppercasesStrings()
     {
         $data = [
             'name' => 'HellO EverYboDy',
         ];
+
         $rules = [
             'name' => 'uppercase',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('HELLO EVERYBODY', $data['name']);
+        $this->assertSame('HELLO EVERYBODY', $data['name']);
     }
 
-    /**
-     *  @test
-     */
-    public function it_uppercases_special_characters_strings()
+    public function testItUppercasesSpecialCharactersStrings()
     {
         $data = [
             'name' => 'Τάχιστη αλώπηξ',
         ];
+
         $rules = [
             'name' => 'uppercase',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('ΤΆΧΙΣΤΗ ΑΛΏΠΗΞ', $data['name']);
+        $this->assertSame('ΤΆΧΙΣΤΗ ΑΛΏΠΗΞ', $data['name']);
     }
 }

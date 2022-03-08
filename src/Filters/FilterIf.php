@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Filters;
 
 use Sanitizer\Contracts\Filter;
@@ -11,7 +13,8 @@ class FilterIf implements Filter
      *
      *  @param  array   $values
      *  @param  array   $options
-     *  @return boolean
+     *
+     *  @return bool
      */
     public function apply($values, $options = [])
     {

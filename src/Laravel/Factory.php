@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Laravel;
 
 use Closure;
-use InvalidArgumentException;
 use Sanitizer\Contracts\Filter;
 use Sanitizer\Sanitizer;
 
 class Factory
 {
     /**
-     *  List of custom filters
+     *  List of custom filters.
+     *
      *  @var array
      */
     protected $customFilters;
@@ -26,15 +28,17 @@ class Factory
     }
 
     /**
-     *  Create a new Sanitizer instance
+     *  Create a new Sanitizer instance.
      *
      *  @param  array   $data       Data to be sanitized
      *  @param  array   $rules      Filters to be applied to the given data
+     *
      *  @return Sanitizer
      */
     public function make(array $data, array $rules)
     {
         $sanitizer = new Sanitizer($data, $rules, $this->customFilters);
+
         return $sanitizer;
     }
 
@@ -42,18 +46,21 @@ class Factory
      *  Add a custom filters to all Sanitizers created with this Factory.
      *
      *  @param  string  $name       Name of the filter
-     *  @param  mixed   $extension  Either the full class name of a Filter class implementing the Filter contract, or a Closure.
-     *  @throws InvalidArgumentException
+     *  @param  mixed   $extension  either the full class name of a Filter class implementing the Filter contract, or a Closure
+     * @param mixed $customFilter
+     *
+     *  @throws \InvalidArgumentException
+     *
      *  @return void
      */
     public function extend($name, $customFilter)
     {
         if (empty($name) || !is_string($name)) {
-            throw new InvalidArgumentException('The Sanitizer filter name must be a non-empty string.');
+            throw new \InvalidArgumentException('The Sanitizer filter name must be a non-empty string.');
         }
 
-        if (!($customFilter instanceof Closure) && !in_array(Filter::class, class_implements($customFilter))) {
-            throw new InvalidArgumentException('Custom filter must be a Closure or a class implementing the Sanitizer\Contracts\Filter interface.');
+        if (!($customFilter instanceof \Closure) && !in_array(Filter::class, class_implements($customFilter))) {
+            throw new \InvalidArgumentException('Custom filter must be a Closure or a class implementing the Sanitizer\Contracts\Filter interface.');
         }
 
         $this->customFilters[$name] = $customFilter;

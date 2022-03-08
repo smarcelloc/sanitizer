@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Laravel;
 
 use Illuminate\Support\Facades\Facade as LaravelFacade;

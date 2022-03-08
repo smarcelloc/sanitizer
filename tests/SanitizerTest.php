@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use Sanitizer\Sanitizer;
 
@@ -8,122 +10,131 @@ class SanitizerTest extends TestCase
     /**
      * @param $data
      * @param $rules
+     *
      * @return mixed
      */
     public function sanitize($data, $rules)
     {
         $sanitizer = new Sanitizer($data, $rules);
+
         return $sanitizer->sanitize();
     }
 
-    public function test_combine_filters()
+    public function testCombineFilters()
     {
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
+
         $rules = [
             'name' => 'trim|capitalize',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('Hello Everybody', $data['name']);
+        $this->assertSame('Hello Everybody', $data['name']);
     }
 
-    public function test_input_unchanged_if_no_filter()
+    public function testInputUnchangedIfNoFilter()
     {
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
+
         $rules = [
             'name' => '',
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('  HellO EverYboDy   ', $data['name']);
+        $this->assertSame('  HellO EverYboDy   ', $data['name']);
     }
 
-    public function test_array_filters()
+    public function testArrayFilters()
     {
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
+
         $rules = [
             'name' => ['trim', 'capitalize'],
         ];
+
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('Hello Everybody', $data['name']);
+        $this->assertSame('Hello Everybody', $data['name']);
     }
 
-    public function test_wildcard_filters()
+    public function testWildcardFilters()
     {
         $data = [
-            'name'    => [
+            'name' => [
                 'first' => ' John ',
-                'last'  => ' Doe ',
+                'last' => ' Doe ',
             ],
             'address' => [
                 'street' => ' Some street ',
-                'city'   => ' New York ',
+                'city' => ' New York ',
             ],
         ];
+
         $rules = [
-            'name.*'       => 'trim',
+            'name.*' => 'trim',
             'address.city' => 'trim',
         ];
+
         $data = $this->sanitize($data, $rules);
 
         $sanitized = [
-            'name'    => ['first' => 'John', 'last' => 'Doe'],
+            'name' => ['first' => 'John', 'last' => 'Doe'],
             'address' => ['street' => ' Some street ', 'city' => 'New York'],
         ];
 
-        $this->assertEquals($sanitized, $data);
+        $this->assertSame($sanitized, $data);
     }
 
-    /**
-     *  @test
-     */
-    public function it_throws_exception_if_non_existing_filter()
+    public function testItThrowsExceptionIfNonExistingFilter()
     {
         $this->expectException(InvalidArgumentException::class);
         $data = [
             'name' => '  HellO EverYboDy   ',
         ];
+
         $rules = [
             'name' => 'non-filter',
         ];
+
         $data = $this->sanitize($data, $rules);
     }
 
-    public function test_it_should_only_sanitize_passed_data()
+    public function testItShouldOnlySanitizePassedData()
     {
         $data = [
-            'title' => ' Hello WoRlD '
+            'title' => ' Hello WoRlD ',
         ];
 
         $rules = [
             'title' => 'trim',
-            'name' => 'trim|escape'
+            'name' => 'trim|escape',
         ];
 
         $data = $this->sanitize($data, $rules);
 
         $this->assertArrayNotHasKey('name', $data);
         $this->assertArrayHasKey('title', $data);
-        $this->assertEquals(1, count($data));
+        $this->assertSame(1, count($data));
     }
 
-    public function test_closure_rule()
+    public function testClosureRule()
     {
         $data = [
-            'name' => ' Sina '
+            'name' => ' Sina ',
         ];
 
         $rules = [
             'name' => ['trim', function ($value) {
                 return strtoupper($value);
-            }]
+            }],
         ];
 
         $data = $this->sanitize($data, $rules);
-        $this->assertEquals('SINA', $data['name']);
+        $this->assertSame('SINA', $data['name']);
     }
 }

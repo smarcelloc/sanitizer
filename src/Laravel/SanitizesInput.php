@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sanitizer\Laravel;
 
 trait SanitizesInput
@@ -8,8 +10,9 @@ trait SanitizesInput
      *  Sanitize input before validating.
      *
      *  Kept for backwards compatibility with Laravel <= 5.5
-     *  
+     *
      *  @deprecated Renamed to validateResolved() in Laravel 5.6
+     *
      *  @return void
      */
     public function validate()
@@ -32,7 +35,7 @@ trait SanitizesInput
     }
 
     /**
-     *  Sanitize this request's input
+     *  Sanitize this request's input.
      *
      *  @return void
      */
@@ -44,7 +47,7 @@ trait SanitizesInput
     }
 
     /**
-     *  Add custom fields to the Sanitizer
+     *  Add custom fields to the Sanitizer.
      *
      *  @return void
      */
