@@ -9,15 +9,15 @@ use Sanitizer\Contracts\Filter;
 class Lowercase implements Filter
 {
     /**
-     *  Lowercase the given string.
+     * Lowercase the given string.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param string $value
+     * @param array $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
-        return is_string($value) ? mb_strtolower($value, 'UTF-8') : $value;
+        return mb_strtolower($value);
     }
 }

@@ -10,25 +10,32 @@ use Sanitizer\Contracts\Filter;
 class FormatDate implements Filter
 {
     /**
-     *  Lowercase the given string.
+     * Value the given date format.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param string $value
+     * @param array $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
+        if (sizeof($options) !== 2) {
+            throw new \InvalidArgumentException('The Sanitizer Format Date filter requires both the current date format as well as the target format.');
+        }
+
+        $currentFormat = $options[0];
+        $targetFormat = $options[1];
+
         if (!$value) {
             return $value;
         }
 
-        if (sizeof($options) !== 2) {
-            throw new \InvalidArgumentException('The Sanitizer Format Date filter requires both the current date format as well as the target format.');
-        }
-        $currentFormat = trim($options[0]);
-        $targetFormat = trim($options[1]);
+        $date = Carbon::createFromFormat($currentFormat, $value);
 
-        return Carbon::createFromFormat($currentFormat, $value)->format($targetFormat);
+        if ($date instanceof Carbon) {
+            return $date->format($targetFormat);
+        }
+
+        return $value;
     }
 }

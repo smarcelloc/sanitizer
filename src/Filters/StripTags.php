@@ -9,15 +9,15 @@ use Sanitizer\Contracts\Filter;
 class StripTags implements Filter
 {
     /**
-     *  Strip tags from the given string.
+     * Strip tags from the given string.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param string $value
+     * @param array $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
-        return is_string($value) ? strip_tags($value) : $value;
+        return strip_tags($value);
     }
 }

@@ -7,12 +7,12 @@ namespace Sanitizer\Contracts;
 interface Filter
 {
     /**
-     *  Return the result of applying this filter to the given input.
+     * Return the result of applying this filter to the given input.
      *
-     *  @param  mixed $value
+     * @param mixed $value
      * @param mixed $options
      *
-     *  @return mixed
+     * @return mixed
      */
     public function apply($value, $options = []);
 }

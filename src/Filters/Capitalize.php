@@ -9,15 +9,15 @@ use Sanitizer\Contracts\Filter;
 class Capitalize implements Filter
 {
     /**
-     *  Capitalize the given string.
+     * Capitalize the given string.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param string $value
+     * @param array $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
-        return is_string($value) ? mb_convert_case(mb_strtolower($value, 'UTF-8'), MB_CASE_TITLE) : $value;
+        return mb_convert_case($value, MB_CASE_TITLE);
     }
 }

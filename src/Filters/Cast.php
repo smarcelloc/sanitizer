@@ -10,44 +10,54 @@ use Sanitizer\Contracts\Filter;
 class Cast implements Filter
 {
     /**
-     *  Capitalize the given string.
+     * Value the given according with type cast.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param mixed $value
+     * @param array $options
      *
-     *  @return string
+     * @return mixed
      */
     public function apply($value, $options = [])
     {
         $type = isset($options[0]) ? $options[0] : null;
 
         switch ($type) {
-            case 'int':
             case 'integer':
-                return (int) $value;
+                return !is_array($value) ? intval($value) : $value;
 
-            case 'real':
-            case 'float':
             case 'double':
-                return (float) $value;
+                return !is_array($value) ? floatval($value) : $value;
 
             case 'string':
-                return (string) $value;
+                return !is_array($value) ? strval($value) : $value;
 
-            case 'bool':
             case 'boolean':
-                return (bool) $value;
+                return !is_array($value) ? boolval($value) : $value;
 
             case 'object':
-                return is_array($value) ? (object) $value : json_decode($value, false);
+                if (is_array($value)) {
+                    return (object) $value;
+                }
+
+                if (is_string($value)) {
+                    return json_decode($value, false);
+                }
+
+                return $value;
 
             case 'array':
-                return json_decode($value, true);
+                return is_string($value) ? json_decode($value, true) : $value;
 
             case 'collection':
-                $array = is_array($value) ? $value : json_decode($value, true);
+                if (is_string($value)) {
+                    $value = json_decode($value, true);
+                }
 
-                return new Collection($array);
+                if (!is_array($value)) {
+                    return $value;
+                }
+
+                return new Collection($value);
 
             default:
                 throw new \InvalidArgumentException("Wrong Sanitizer casting format: {$type}.");

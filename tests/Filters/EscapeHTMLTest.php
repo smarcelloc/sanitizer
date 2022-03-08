@@ -20,6 +20,6 @@ class EscapeHTMLTest extends TestCase
         ];
 
         $data = $this->sanitize($data, $rules);
-        $this->assertSame('Hello! Unicode chars as Ñ are not escaped. Neither is content inside HTML tags', $data['name']);
+        $this->assertSame('&lt;h1&gt;Hello! Unicode chars as Ñ are not escaped.&lt;/h1&gt; &lt;script&gt;Neither is content inside HTML tags&lt;/script&gt;', $data['name']);
     }
 }

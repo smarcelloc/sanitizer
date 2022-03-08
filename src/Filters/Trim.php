@@ -9,15 +9,15 @@ use Sanitizer\Contracts\Filter;
 class Trim implements Filter
 {
     /**
-     *  Trims the given string.
+     * Trims the given string.
      *
-     *  @param  string  $value
-     * @param mixed $options
+     * @param string $value
+     * @param array $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
-        return is_string($value) ? trim($value) : $value;
+        return trim($value);
     }
 }

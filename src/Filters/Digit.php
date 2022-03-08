@@ -9,15 +9,17 @@ use Sanitizer\Contracts\Filter;
 class Digit implements Filter
 {
     /**
-     *  Get only digit characters from the string.
+     * Get only digit characters from the string.
      *
-     *  @param  string  $value
+     * @param string $value
      * @param mixed $options
      *
-     *  @return string
+     * @return string
      */
     public function apply($value, $options = [])
     {
-        return preg_replace('/[^0-9]/si', '', $value);
+        $digit = preg_replace('/[^0-9]/si', '', $value);
+
+        return $digit !== null ? $digit : $value;
     }
 }
