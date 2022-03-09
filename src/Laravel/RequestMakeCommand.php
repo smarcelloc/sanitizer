@@ -13,7 +13,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:sanitized-request';
+    protected $name = 'sanitizer:request';
 
     /**
      * The console command description.
