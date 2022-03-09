@@ -16,7 +16,7 @@ class LowercaseTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'lowercase',
+            'name' => 'lower',
         ];
 
         $data = $this->sanitize($data, $rules);
@@ -30,7 +30,7 @@ class LowercaseTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'lowercase',
+            'name' => 'lower',
         ];
 
         $data = $this->sanitize($data, $rules);

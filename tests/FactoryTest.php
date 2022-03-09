@@ -10,11 +10,11 @@ class FactoryTest extends TestCase
     public function sanitize($data, $rules)
     {
         $sanitizer = new Sanitizer($data, $rules, [
-            'capitalize' => \Sanitizer\Filters\Capitalize::class,
+            'title' => \Sanitizer\Filters\Capitalize::class,
             'escape' => \Sanitizer\Filters\EscapeHTML::class,
-            'format_date' => \Sanitizer\Filters\FormatDate::class,
-            'lowercase' => \Sanitizer\Filters\Lowercase::class,
-            'uppercase' => \Sanitizer\Filters\Uppercase::class,
+            'fdate' => \Sanitizer\Filters\FormatDate::class,
+            'lower' => \Sanitizer\Filters\Lowercase::class,
+            'upper' => \Sanitizer\Filters\Uppercase::class,
             'trim' => \Sanitizer\Filters\Trim::class,
         ]);
 

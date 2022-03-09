@@ -22,4 +22,18 @@ class TrimTest extends TestCase
         $data = $this->sanitize($data, $rules);
         $this->assertSame('Test', $data['name']);
     }
+
+    public function testItTrimReturnValueNoChange()
+    {
+        $data = [
+            'name' => 123,
+        ];
+
+        $rules = [
+            'name' => 'trim',
+        ];
+
+        $data = $this->sanitize($data, $rules);
+        $this->assertSame(123, $data['name']);
+    }
 }

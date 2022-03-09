@@ -11,13 +11,13 @@ class CapitalizeTest extends TestCase
 
     public function testItCapitalizesStrings()
     {
-        $result = $this->sanitize(['name' => ' jon snow 145'], ['name' => 'capitalize']);
+        $result = $this->sanitize(['name' => ' jon snow 145'], ['name' => 'title']);
         $this->assertSame(' Jon Snow 145', $result['name']);
     }
 
     public function testItCapitalizesSpecialCharacters()
     {
-        $result = $this->sanitize(['name' => 'Τάχιστη αλώπηξ'], ['name' => 'capitalize']);
+        $result = $this->sanitize(['name' => 'Τάχιστη αλώπηξ'], ['name' => 'title']);
         $this->assertSame('Τάχιστη Αλώπηξ', $result['name']);
     }
 }

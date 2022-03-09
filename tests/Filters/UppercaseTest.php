@@ -16,7 +16,7 @@ class UppercaseTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'uppercase',
+            'name' => 'upper',
         ];
 
         $data = $this->sanitize($data, $rules);
@@ -30,7 +30,7 @@ class UppercaseTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'uppercase',
+            'name' => 'upper',
         ];
 
         $data = $this->sanitize($data, $rules);

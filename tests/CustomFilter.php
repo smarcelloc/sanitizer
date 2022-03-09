@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class CustomFilter implements Filter
+class CustomFilter extends Filter
 {
-    public function apply($value, $options = [])
+    protected $allowType = ['string'];
+
+    public function apply($value)
     {
         return $value . $value;
     }

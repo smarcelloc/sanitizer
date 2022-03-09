@@ -16,7 +16,7 @@ class FilterIfTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'uppercase|filter_if:name,HellO EverYboDy',
+            'name' => 'upper|if:name,HellO EverYboDy',
         ];
 
         $data = $this->sanitize($data, $rules);
@@ -30,7 +30,7 @@ class FilterIfTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'uppercase|filter_if:name,no match',
+            'name' => 'upper|if:name,no match',
         ];
 
         $data = $this->sanitize($data, $rules);

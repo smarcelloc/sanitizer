@@ -16,7 +16,7 @@ class FormatDateTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'format_date:d/m/Y, Y-m-d',
+            'name' => 'fdate:d/m/Y, Y-m-d',
         ];
 
         $data = $this->sanitize($data, $rules);
@@ -31,7 +31,7 @@ class FormatDateTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'format_date:d/m/Y',
+            'name' => 'fdate:d/m/Y',
         ];
 
         $data = $this->sanitize($data, $rules);

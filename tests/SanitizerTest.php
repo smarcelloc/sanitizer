@@ -16,7 +16,7 @@ class SanitizerTest extends TestCase
         ];
 
         $rules = [
-            'name' => 'trim|capitalize',
+            'name' => 'trim|title',
         ];
 
         $data = $this->sanitize($data, $rules);
@@ -44,7 +44,7 @@ class SanitizerTest extends TestCase
         ];
 
         $rules = [
-            'name' => ['trim', 'capitalize'],
+            'name' => ['trim', 'title'],
         ];
 
         $data = $this->sanitize($data, $rules);
