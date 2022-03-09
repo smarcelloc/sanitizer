@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Sanitizer\Filters;
 
 use Illuminate\Support\Collection;
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class Cast implements Filter
+class Cast extends Filter
 {
+    protected $allowType = ['string', 'integer', 'double', 'array', 'boolean'];
+
     /**
      * Value the given according with type cast.
      *
      * @param mixed $value
-     * @param array $options
      *
      * @return mixed
      */
-    public function apply($value, $options = [])
+    public function apply($value, array $options = [])
     {
-        $type = isset($options[0]) ? $options[0] : null;
+        $type = $options[0] ?? null;
 
         switch ($type) {
             case 'integer':

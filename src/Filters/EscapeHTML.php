@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Sanitizer\Filters;
 
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class EscapeHTML implements Filter
+class EscapeHTML extends Filter
 {
+    protected $allowType = ['string'];
+
     /**
      * Remove HTML tags and encode special characters from the given string.
-     *
-     * @param string $value
-     * @param array $options
-     *
-     * @return string
      */
-    public function apply($value, $options = [])
+    public function apply(string $value): string
     {
         return htmlspecialchars($value);
     }

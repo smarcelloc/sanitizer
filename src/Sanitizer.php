@@ -30,23 +30,20 @@ class Sanitizer
      * @var array
      */
     protected $filters = [
-        'capitalize' => \Sanitizer\Filters\Capitalize::class,
+        'title' => \Sanitizer\Filters\Title::class,
         'cast' => \Sanitizer\Filters\Cast::class,
         'escape' => \Sanitizer\Filters\EscapeHTML::class,
-        'format_date' => \Sanitizer\Filters\FormatDate::class,
-        'lowercase' => \Sanitizer\Filters\Lowercase::class,
-        'uppercase' => \Sanitizer\Filters\Uppercase::class,
+        'fdate' => \Sanitizer\Filters\FormatDate::class,
+        'lower' => \Sanitizer\Filters\Lowercase::class,
+        'upper' => \Sanitizer\Filters\Uppercase::class,
         'trim' => \Sanitizer\Filters\Trim::class,
         'strip_tags' => \Sanitizer\Filters\StripTags::class,
         'digit' => \Sanitizer\Filters\Digit::class,
-        'filter_if' => \Sanitizer\Filters\FilterIf::class,
+        'if' => \Sanitizer\Filters\FilterIf::class,
     ];
 
     /**
      * Create a new sanitizer instance.
-     *
-     * @param array $rules Rules to be applied to each data attribute
-     * @param array $customFilters Available filters for this sanitizer
      */
     public function __construct(array $data, array $rules, array $customFilters = [])
     {
@@ -56,11 +53,48 @@ class Sanitizer
     }
 
     /**
-     * Parse a rules array.
-     *
-     * @return array
+     *  Sanitize the given data.
      */
-    protected function parseRules(array $rules)
+    public function sanitize(): array
+    {
+        $sanitized = $this->data;
+
+        foreach ($this->rules as $attr => $rules) {
+            if (Arr::has($this->data, $attr)) {
+                $value = Arr::get($this->data, $attr);
+                Arr::set($sanitized, $attr, $this->sanitizeValue($value, $rules));
+            }
+        }
+
+        return $sanitized;
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    private function sanitizeValue($value, array $rules)
+    {
+        $original = $value;
+
+        foreach ($rules as $rule) {
+            if (is_array($rule) && $rule['name'] === 'if') {
+                if (!$this->applyFilter($rule, $this->data)) {
+                    return $original;
+                }
+            }
+
+            $value = $this->applyFilter($rule, $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     *  Parse a rules array.
+     */
+    protected function parseRules(array $rules): array
     {
         $parsedRules = [];
 
@@ -82,9 +116,9 @@ class Sanitizer
     /**
      * Parse a rule.
      *
-     * @param string|\Closure|ClosureValidationRule $rule
+     * @param mixed $rule
      *
-     * @return array|\Closure|ClosureValidationRule
+     * @return array|\Closure
      */
     protected function parseRule($rule)
     {
@@ -109,7 +143,7 @@ class Sanitizer
     protected function parseRuleString($rule)
     {
         if (strpos($rule, ':') !== false) {
-            list($name, $options) = explode(':', $rule, 2);
+            [$name, $options] = explode(':', $rule, 2);
             $options = array_map('trim', explode(',', $options));
         } else {
             $name = $rule;
@@ -145,48 +179,13 @@ class Sanitizer
             throw new \InvalidArgumentException("No filter found by the name of {$name}");
         }
 
+        /** @var Filter|\Closure */
         $filter = $this->filters[$name];
 
         if ($filter instanceof \Closure) {
             return call_user_func_array($filter, [$value, $options]);
         }
 
-        // @phpstan-ignore-next-line
-        return (new $filter())->apply($value, $options);
-    }
-
-    /**
-     * Sanitize the given data.
-     *
-     * @return array
-     */
-    public function sanitize()
-    {
-        $sanitized = $this->data;
-
-        foreach ($this->rules as $attr => $rules) {
-            if (Arr::has($this->data, $attr)) {
-                $value = Arr::get($this->data, $attr);
-                $original = $value;
-
-                $sanitize = true;
-
-                foreach ($rules as $rule) {
-                    if (is_array($rule) && $rule['name'] === 'filter_if') {
-                        $sanitize = $this->applyFilter($rule, $this->data);
-                    } else {
-                        $value = $this->applyFilter($rule, $value);
-                    }
-                }
-
-                if ($sanitize) {
-                    Arr::set($sanitized, $attr, $value);
-                } else {
-                    Arr::set($sanitized, $attr, $original);
-                }
-            }
-        }
-
-        return $sanitized;
+        return (new $filter())->applyFilter($value, $options);
     }
 }

@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace Sanitizer\Filters;
 
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class Digit implements Filter
+class Digit extends Filter
 {
+    protected $allowType = ['string', 'integer', 'double'];
+
     /**
      * Get only digit characters from the string.
      *
-     * @param string $value
-     * @param mixed $options
+     * @param float|int|string $value
      *
-     * @return string
+     * @return int|string
      */
-    public function apply($value, $options = [])
+    public function apply($value)
     {
-        $digit = preg_replace('/[^0-9]/si', '', $value);
+        if (is_string($value)) {
+            $valueDigit = preg_replace('/[^0-9]/si', '', $value);
 
-        return $digit !== null ? $digit : $value;
+            if ($valueDigit === null) {
+                return $value;
+            }
+
+            return $valueDigit;
+        }
+
+        return intval($value);
     }
 }

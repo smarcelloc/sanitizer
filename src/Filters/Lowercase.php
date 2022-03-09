@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Sanitizer\Filters;
 
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class Lowercase implements Filter
+class Lowercase extends Filter
 {
+    protected $allowType = ['string'];
+
     /**
      * Lowercase the given string.
-     *
-     * @param string $value
-     * @param array $options
-     *
-     * @return string
      */
-    public function apply($value, $options = [])
+    public function apply(string $value): string
     {
         return mb_strtolower($value);
     }

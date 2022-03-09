@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Sanitizer\Filters;
 
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 
-class StripTags implements Filter
+class StripTags extends Filter
 {
+    protected $allowType = ['string'];
+
     /**
      * Strip tags from the given string.
-     *
-     * @param string $value
-     * @param array $options
-     *
-     * @return string
      */
-    public function apply($value, $options = [])
+    public function apply(string $value): string
     {
         return strip_tags($value);
     }
