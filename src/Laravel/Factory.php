@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sanitizer\Laravel;
 
-use Closure;
-use Sanitizer\Contracts\Filter;
+use Sanitizer\Filter;
 use Sanitizer\Sanitizer;
 
 class Factory
@@ -59,8 +58,8 @@ class Factory
             throw new \InvalidArgumentException('The Sanitizer filter name must be a non-empty string.');
         }
 
-        if (!($customFilter instanceof \Closure) && !in_array(Filter::class, class_implements($customFilter))) {
-            throw new \InvalidArgumentException('Custom filter must be a Closure or a class implementing the Sanitizer\Contracts\Filter interface.');
+        if (!($customFilter instanceof \Closure) && !is_subclass_of($customFilter, Filter::class)) {
+            throw new \InvalidArgumentException("Custom filter '{$name}' must be a Closure or a class extends the Sanitizer\\Filter.");
         }
 
         $this->customFilters[$name] = $customFilter;
